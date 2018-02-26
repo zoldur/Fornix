@@ -39,8 +39,8 @@ Alias Address Privkey TxHash Output_index
 ## Usage:
 
 ```
-xuma-cli mnsync status
-xuma-cli getinfo
+fornix-cli mnsync status
+fornix-cli getinfo
 fornix-cli masternode status
 ```
 

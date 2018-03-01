@@ -4,8 +4,8 @@ Shell script to install an [Fornix Masternode](http://www.fornix.co/) on a Linux
 ***
 ## Installation:
 ```
-wget -q https://raw.githubusercontent.com/zoldur/Fornix/master/fornix_install.sh  
-bash fornix_install.sh  
+wget -q https://raw.githubusercontent.com/zoldur/Fornix/master/fornix_install.sh
+bash fornix_install.sh
 ```
 ***
 
@@ -30,9 +30,11 @@ Alias Address Privkey TxHash Output_index
 * Output index:  **Second value from Step 6**
 9. Save and close the file.
 10. Go to **Masternode Tab**. If you tab is not shown, please enable it from: **Settings - Options - Wallet - Show Masternodes Tab**
-11. Click **Update status** to see your node. If it is not shown, close the wallet and start it again.
-10. Click **Start All**
-11. If you are not able to see your **Masternode**, try to close and open your desktop wallet.
+11. Click **Update status** to see your node. If it is not shown, close the wallet and start it again. Make sure the wallet is unlocked.
+11. Open **Debug Console** and type:
+```
+startmasternode "alias" "0" "MN1"
+```
 
 ***
 

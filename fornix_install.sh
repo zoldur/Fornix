@@ -45,7 +45,7 @@ Group=root
 Type=forking
 #PIDFile=$CONFIGFOLDER/$COIN_NAME.pid
 
-ExecStart=$COIN_DAEMON -daemon -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER -reindex
+ExecStart=$COIN_DAEMON -daemon 
 ExecStop=-$COIN_CLI -conf=$CONFIGFOLDER/$CONFIG_FILE -datadir=$CONFIGFOLDER stop
 
 Restart=always
@@ -69,15 +69,14 @@ EOF
     echo -e "${GREEN}systemctl start $COIN_NAME.service"
     echo -e "systemctl status $COIN_NAME.service"
     echo -e "less /var/log/syslog${NC}"
-    exit 1
   fi
 }
 
 
 function create_config() {
   mkdir $CONFIGFOLDER >/dev/null 2>&1
-  RPCUSER=$(pwgen -s 8 1)
-  RPCPASSWORD=$(pwgen -s 15 1)
+  RPCUSER=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w12 | head -n1)
+  RPCPASSWORD=$(tr -cd '[:alnum:]' < /dev/urandom | fold -w20 | head -n1)
   cat << EOF > $CONFIGFOLDER/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
@@ -124,17 +123,14 @@ EOF
 
 
 function enable_firewall() {
-  echo -e "Installing fail2ban and setting up firewall to allow ingress on port ${GREEN}$COIN_PORT${NC}"
+  echo -e "Installing setting up firewall to allow ingress on port ${GREEN}$COIN_PORT${NC}"
   ufw allow $COIN_PORT/tcp comment "$COIN_NAME MN port" >/dev/null
   ufw allow $RPCPORT/tcp comment "$COIN_NAME RPC port" >/dev/null
   ufw allow ssh comment "SSH" >/dev/null 2>&1
   ufw limit ssh/tcp >/dev/null 2>&1
   ufw default allow outgoing >/dev/null 2>&1
   echo "y" | ufw enable >/dev/null 2>&1
-  systemctl enable fail2ban >/dev/null 2>&1
-  systemctl start fail2ban >/dev/null 2>&1
 }
-
 
 
 function get_ip() {

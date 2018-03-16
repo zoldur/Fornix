@@ -26,6 +26,7 @@ function compile_node() {
   compile_error 
   tar xvzf Linux_64bit.tar.gz >/dev/null 2>&1
   compile_error 
+  chown root: fornix*
   cp fornix* /usr/local/bin
   cd -
   rm -rf $TMP_FOLDER >/dev/null 2>&1
